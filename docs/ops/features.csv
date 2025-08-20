@@ -1,0 +1,36 @@
+feature_id,feature,version,status,area
+FEAT-001,API Scaffold (Fastify),0.1.0,planned,backend
+FEAT-002,Prisma Setup & Migrations,0.1.0,planned,backend
+FEAT-003,DB Schema (Projects Docs Features Sprints Items),0.1.0,planned,backend
+FEAT-004,Documents CRUD Endpoints,0.1.0,planned,backend
+FEAT-005,Features CRUD Endpoints,0.1.0,planned,backend
+FEAT-006,Sprints CRUD & Items Endpoints,0.1.0,planned,backend
+FEAT-007,Search (LIKE) Filters & Pagination,0.1.0,planned,backend
+FEAT-008,Full-text Search (SQLite FTS5 / Postgres tsvector),0.1.0,planned,backend
+FEAT-009,OpenAPI Spec & API Docs,0.1.0,planned,backend
+FEAT-010,Auth: Service Token for MCP,0.1.0,planned,infra
+FEAT-011,RequestId Propagation End-to-End,0.1.0,planned,infra
+FEAT-012,Idempotency Keys for Write Ops,0.1.0,planned,backend
+FEAT-013,Rate Limiting (per token/IP),0.1.0,planned,infra
+FEAT-014,Observability: Structured Logs & Metrics,0.1.0,planned,infra
+FEAT-015,Error Handling (RFC7807 Problem+JSON),0.1.0,planned,backend
+FEAT-016,MCP Server Scaffold (stdio),0.1.0,planned,ai
+FEAT-017,MCP Tools → API Mapping,0.1.0,planned,ai
+FEAT-018,MCP Resources (read-only lists),0.1.0,planned,ai
+FEAT-019,CSV Import/Export for Features,0.1.0,planned,backend
+FEAT-020,Seed & Bootstrap Project,0.1.0,planned,backend
+FEAT-021,Unit Tests (Vitest),0.1.0,planned,qa
+FEAT-022,Integration Tests (Supertest),0.1.0,planned,qa
+FEAT-023,E2E Smoke (MCP/CLI),0.1.0,planned,qa
+FEAT-024,Load Testing (k6),0.1.0,planned,qa
+FEAT-025,Linting & Formatting (ESLint Prettier),0.1.0,planned,infra
+FEAT-026,CI Workflow (GitHub Actions),0.1.0,planned,infra
+FEAT-027,Dockerfile & Docker Compose,0.1.0,planned,infra
+FEAT-028,Config & Secrets (dotenv),0.1.0,planned,infra
+FEAT-029,Backup/Restore Scripts (DB),0.1.0,planned,infra
+FEAT-030,Security Baseline (Helmet CORS),0.1.0,planned,infra
+FEAT-031,Cursor Pagination Contracts,0.1.0,planned,backend
+FEAT-032,Docs: README Contributing OpenAPI,0.1.0,planned,docs
+FEAT-033,Feature Flags (config-based),0.1.0,planned,infra
+FEAT-034,SLOs & Alerts (doc + config),0.1.0,planned,infra
+FEAT-035,Retry & Backoff Policy (client-side),0.1.0,planned,ai
