@@ -198,8 +198,43 @@ export class ApiClient {
 
   // Health check
   async healthCheck(options: { requestId?: string } = {}): Promise<ApiResponse<any>> {
-    const url = this.baseUrl.replace('/api/v1', '/health/live');
-    return this.request('GET', '', { ...options, headers: { 'X-Base-URL': url } });
+    // Make a direct request to the health endpoint
+    const healthUrl = this.baseUrl.replace('/api/v1', '/health/live');
+    
+    try {
+      const response = await fetch(healthUrl, {
+        method: 'GET',
+        headers: {
+          'X-Request-ID': options.requestId || randomUUID(),
+        },
+        signal: AbortSignal.timeout(this.timeout),
+      });
+      
+      const data = await response.json();
+      
+      return {
+        status: response.status,
+        data: response.ok ? data : undefined,
+        error: response.ok ? undefined : {
+          type: 'https://1plan.dev/errors/health-check-failed',
+          title: 'Health Check Failed',
+          status: response.status,
+          detail: data?.detail || `Health check returned ${response.status}`,
+          requestId: options.requestId,
+        },
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        error: {
+          type: 'https://1plan.dev/errors/health-check-error',
+          title: 'Health Check Error',
+          status: 500,
+          detail: error instanceof Error ? error.message : 'Health check failed',
+          requestId: options.requestId,
+        },
+      };
+    }
   }
 }
 
