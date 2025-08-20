@@ -15,6 +15,8 @@ import { config } from './lib/config.js';
 import { logger } from './lib/logger.js';
 import { documentTools, documentHandlers } from './tools/documents.js';
 import { projectTools, projectHandlers } from './tools/projects.js';
+import { featureTools, featureHandlers } from './tools/features.js';
+import { sprintTools, sprintHandlers } from './tools/sprints.js';
 import { resources, resourceHandlers } from './resources/index.js';
 
 class McpGatewayServer {
@@ -36,8 +38,8 @@ class McpGatewayServer {
       }
     );
 
-    this.tools = [...documentTools, ...projectTools];
-    this.toolHandlers = { ...documentHandlers, ...projectHandlers };
+    this.tools = [...documentTools, ...projectTools, ...featureTools, ...sprintTools];
+    this.toolHandlers = { ...documentHandlers, ...projectHandlers, ...featureHandlers, ...sprintHandlers };
 
     this.setupHandlers();
   }

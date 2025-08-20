@@ -14,6 +14,8 @@ import { errorHandler } from './middleware/error-handler.js';
 import { healthRoutes } from './routes/health.js';
 import { documentRoutes } from './routes/documents.js';
 import { projectRoutes } from './routes/projects.js';
+import { featureRoutes } from './routes/features.js';
+import { sprintRoutes } from './routes/sprints.js';
 
 // Create Fastify instance
 const fastify = Fastify({
@@ -88,7 +90,10 @@ await fastify.register(swagger, {
     ],
     tags: [
       { name: 'Health', description: 'Health check endpoints' },
+      { name: 'Projects', description: 'Project management' },
       { name: 'Documents', description: 'Document management' },
+      { name: 'Features', description: 'Feature management' },
+      { name: 'Sprints', description: 'Sprint management' },
     ],
     components: {
       securitySchemes: {
@@ -119,6 +124,8 @@ await fastify.register(healthRoutes);
 await fastify.register(async function (fastify) {
   await fastify.register(projectRoutes);
   await fastify.register(documentRoutes);
+  await fastify.register(featureRoutes);
+  await fastify.register(sprintRoutes);
 }, { prefix: `${config.API_PREFIX}/${config.API_VERSION}` });
 
 // Graceful shutdown handling

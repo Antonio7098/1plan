@@ -196,6 +196,70 @@ export class ApiClient {
     return this.request('DELETE', `/documents/${id}`, options);
   }
 
+  // Features methods
+  async createFeature(data: any, options: { requestId?: string } = {}): Promise<ApiResponse<any>> {
+    return this.request('POST', '/features', { ...options, body: data });
+  }
+
+  async getFeature(id: string, options: { requestId?: string } = {}): Promise<ApiResponse<any>> {
+    return this.request('GET', `/features/${id}`, options);
+  }
+
+  async listFeatures(params: any = {}, options: { requestId?: string } = {}): Promise<ApiResponse<any>> {
+    const queryParams = new URLSearchParams();
+    
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && key !== 'requestId') {
+        queryParams.append(key, String(value));
+      }
+    });
+    
+    const queryString = queryParams.toString();
+    const url = queryString ? `/features?${queryString}` : '/features';
+    
+    return this.request('GET', url, options);
+  }
+
+  async updateFeature(id: string, data: any, options: { requestId?: string } = {}): Promise<ApiResponse<any>> {
+    return this.request('PATCH', `/features/${id}`, { ...options, body: data });
+  }
+
+  async deleteFeature(id: string, options: { requestId?: string } = {}): Promise<ApiResponse<void>> {
+    return this.request('DELETE', `/features/${id}`, options);
+  }
+
+  // Sprints methods
+  async createSprint(data: any, options: { requestId?: string } = {}): Promise<ApiResponse<any>> {
+    return this.request('POST', '/sprints', { ...options, body: data });
+  }
+
+  async getSprint(id: string, options: { requestId?: string } = {}): Promise<ApiResponse<any>> {
+    return this.request('GET', `/sprints/${id}`, options);
+  }
+
+  async listSprints(params: any = {}, options: { requestId?: string } = {}): Promise<ApiResponse<any>> {
+    const queryParams = new URLSearchParams();
+    
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && key !== 'requestId') {
+        queryParams.append(key, String(value));
+      }
+    });
+    
+    const queryString = queryParams.toString();
+    const url = queryString ? `/sprints?${queryString}` : '/sprints';
+    
+    return this.request('GET', url, options);
+  }
+
+  async updateSprint(id: string, data: any, options: { requestId?: string } = {}): Promise<ApiResponse<any>> {
+    return this.request('PATCH', `/sprints/${id}`, { ...options, body: data });
+  }
+
+  async deleteSprint(id: string, options: { requestId?: string } = {}): Promise<ApiResponse<void>> {
+    return this.request('DELETE', `/sprints/${id}`, options);
+  }
+
   // Health check
   async healthCheck(options: { requestId?: string } = {}): Promise<ApiResponse<any>> {
     // Make a direct request to the health endpoint
