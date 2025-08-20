@@ -38,3 +38,19 @@ FEAT-036,Demo GIF & Video Assets,0.1.0,planned,docs
 FEAT-037,GitHub Pages Deployment (API docs),0.1.0,planned,infra
 FEAT-038,MCP Integration Guide (Claude Desktop Cursor),0.1.0,planned,docs
 FEAT-039,Release Automation & Changelog,0.1.0,planned,infra
+FEAT-040,Health Check Endpoints (liveness readiness),0.1.0,planned,infra
+FEAT-041,Graceful Shutdown Handling,0.1.0,planned,infra
+FEAT-042,Database Connection Pooling,0.1.0,planned,backend
+FEAT-043,Distributed Tracing (OpenTelemetry),0.1.0,planned,infra
+FEAT-044,Circuit Breaker Pattern,0.1.0,planned,backend
+FEAT-045,Input Sanitization & Validation,0.1.0,planned,backend
+FEAT-046,Audit Logging & Compliance,0.1.0,planned,infra
+FEAT-047,GDPR Compliance (Data Rights),0.1.0,planned,backend
+FEAT-048,Security Scanning (SAST DAST),0.1.0,planned,infra
+FEAT-049,Disaster Recovery Procedures,0.1.0,planned,infra
+FEAT-050,Multi-Region Deployment,0.1.0,planned,infra
+FEAT-051,Caching Layer (Redis),0.1.0,planned,infra
+FEAT-052,SSO Integration (OIDC SAML),0.1.0,planned,backend
+FEAT-053,Contract Testing,0.1.0,planned,qa
+FEAT-054,Chaos Engineering Tests,0.1.0,planned,qa
+FEAT-055,Production Monitoring Dashboard,0.1.0,planned,infra
