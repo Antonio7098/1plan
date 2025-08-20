@@ -101,6 +101,18 @@ export async function errorHandler(
         code: error.code,
       };
     }
+  } else if ((error as any).statusCode === 429 || (error as any).status === 429 || /rate\s*limit/i.test(String((error as any).message || ''))) {
+    // Rate limit errors (from @fastify/rate-limit)
+    problemDetails = {
+      type: 'https://1plan.dev/errors/rate-limit-exceeded',
+      title: 'Rate Limit Exceeded',
+      status: 429,
+      detail: (error as any).message || 'Too many requests',
+      instance: request.url,
+      // Include statusCode to align with tests and plugin expectations
+      statusCode: 429,
+      error: 'Too Many Requests',
+    } as any;
   } else if (error.statusCode) {
     // Custom API errors
     problemDetails = {
@@ -124,6 +136,9 @@ export async function errorHandler(
 
   // Add request ID to problem details
   problemDetails.requestId = requestId;
+
+  // Always include statusCode mirror for clients/tests expecting it
+  (problemDetails as any).statusCode = (problemDetails as any).statusCode ?? problemDetails.status;
 
   reply
     .status(problemDetails.status)

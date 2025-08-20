@@ -12,6 +12,7 @@ const configSchema = z.object({
   PORT: z.coerce.number().default(4000),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   LOG_LEVEL: z.enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal']).default('info'),
+  BODY_LIMIT: z.coerce.number().default(1_048_576), // 1MB
 
   // API Configuration
   API_VERSION: z.string().default('v1'),

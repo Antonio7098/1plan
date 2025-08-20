@@ -1,13 +1,14 @@
 import { beforeAll, afterAll, afterEach } from 'vitest';
 import { db } from '../lib/db.js';
 
+// Ensure test environment variables are set early for config parsing
+process.env.NODE_ENV = process.env.NODE_ENV || 'test';
+if (!process.env.DATABASE_URL) {
+  process.env.DATABASE_URL = 'file:./test.db';
+}
+
 // Test database setup
 beforeAll(async () => {
-  // Ensure we're using a test database
-  if (!process.env.DATABASE_URL?.includes('test')) {
-    process.env.DATABASE_URL = 'file:./test.db';
-  }
-  
   // Connect to database
   await db.$connect();
 });

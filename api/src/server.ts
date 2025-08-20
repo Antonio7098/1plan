@@ -16,6 +16,9 @@ import { documentRoutes } from './routes/documents.js';
 import { projectRoutes } from './routes/projects.js';
 import { featureRoutes } from './routes/features.js';
 import { sprintRoutes } from './routes/sprints.js';
+import { metricsRoutes } from './routes/metrics.js';
+import { observeRequest } from './lib/metrics.js';
+import type { FastifyRequest, FastifyReply } from 'fastify';
 
 // Create Fastify instance
 const fastify = Fastify({
@@ -33,6 +36,7 @@ const fastify = Fastify({
   requestIdHeader: 'x-request-id',
   requestIdLogLabel: 'requestId',
   genReqId: () => randomUUID(),
+  bodyLimit: config.BODY_LIMIT,
 });
 
 // Global error handler
@@ -40,6 +44,11 @@ fastify.setErrorHandler(errorHandler);
 
 // Request ID middleware
 fastify.addHook('onRequest', requestIdMiddleware);
+
+// Track request start time
+fastify.addHook('onRequest', async (request: FastifyRequest) => {
+  (request as any)._startTime = Date.now();
+});
 
 // Security middleware
 await fastify.register(helmet, {
@@ -59,7 +68,9 @@ await fastify.register(rateLimit, {
   errorResponseBuilder: (request, context) => ({
     type: 'https://1plan.dev/errors/rate-limit-exceeded',
     title: 'Rate Limit Exceeded',
-    status: 429,
+    statusCode: 429,
+    error: 'Too Many Requests',
+    message: `Rate limit exceeded, retry in ${context.after ?? Math.round(context.ttl / 1000) + 's'}`,
     detail: `Too many requests. Try again in ${Math.round(context.ttl / 1000)} seconds.`,
     instance: request.url,
     requestId: (request as any).id,
@@ -114,19 +125,43 @@ await fastify.register(swaggerUi, {
     deepLinking: false,
   },
   staticCSP: true,
-  transformStaticCSP: (header) => header,
+  transformStaticCSP: (header: string) => header,
 });
 
 // Health check routes (no API prefix)
 await fastify.register(healthRoutes);
 
+// Metrics endpoint (no API prefix)
+await fastify.register(metricsRoutes);
+
 // API routes with versioning
-await fastify.register(async function (fastify) {
+await fastify.register(async function (fastify: any) {
   await fastify.register(projectRoutes);
   await fastify.register(documentRoutes);
   await fastify.register(featureRoutes);
   await fastify.register(sprintRoutes);
 }, { prefix: `${config.API_PREFIX}/${config.API_VERSION}` });
+
+// Observe metrics and log latency on response
+fastify.addHook('onResponse', async (request: FastifyRequest, reply: FastifyReply) => {
+  const start = (request as any)._startTime as number | undefined;
+  const durationMs = start ? Date.now() - start : undefined;
+  const status = reply.statusCode;
+  const method = request.method;
+  const route = (request as any).routeOptions?.url || request.url;
+
+  observeRequest({ method, route, statusCode: status, durationMs });
+
+  // Structured access log
+  request.log.info({
+    method,
+    url: request.url,
+    route,
+    statusCode: status,
+    latency_ms: durationMs,
+    contentLength: reply.getHeader('content-length') || undefined,
+  }, 'request completed');
+});
 
 // Graceful shutdown handling
 const gracefulShutdown = async (signal: string) => {
