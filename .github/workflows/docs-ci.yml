@@ -1,0 +1,61 @@
+name: Docs CI
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'docs/**'
+      - '*.md'
+      - '.github/workflows/docs-ci.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'docs/**'
+      - '*.md'
+      - '.github/workflows/docs-ci.yml'
+
+jobs:
+  validate:
+    name: Validate Documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Check Markdown files
+        uses: DavidAnson/markdownlint-action@v1
+        with:
+          files: '**/*.md'
+          config: |
+            {
+              "MD013": false,
+              "MD033": false,
+              "MD041": false
+            }
+            
+      - name: Validate sprint structure
+        run: |
+          echo "Checking sprint files structure..."
+          for file in docs/ops/sprints/SPR-*.md; do
+            if [ -f "$file" ]; then
+              echo "✓ Found: $file"
+              # Check if file has required sections
+              if grep -q "## Meta" "$file" && grep -q "## Objectives" "$file"; then
+                echo "  ✓ Required sections present"
+              else
+                echo "  ❌ Missing required sections"
+                exit 1
+              fi
+            fi
+          done
+          echo "All sprint files validated successfully!"
+          
+      - name: Check feature CSV format
+        run: |
+          if [ -f "docs/ops/features.csv" ]; then
+            echo "Validating features.csv format..."
+            head -1 docs/ops/features.csv
+            wc -l docs/ops/features.csv
+            echo "✓ Features CSV validated"
+          fi

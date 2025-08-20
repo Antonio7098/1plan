@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  documents Document[]
+  features  Feature[]
+  sprints   Sprint[]
+
+  @@map("projects")
+}
+
+model Document {
+  id        String      @id @default(cuid())
+  projectId String
+  kind      DocumentKind
+  title     String
+  content   String
+  slug      String?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  // Relations
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  // Indexes
+  @@unique([projectId, slug])
+  @@index([projectId, kind])
+  @@index([projectId, updatedAt])
+  @@map("documents")
+}
+
+model Feature {
+  id        String        @id @default(cuid())
+  projectId String
+  featureId String        // e.g., FEAT-001
+  title     String
+  version   String        @default("0.1.0")
+  status    FeatureStatus @default(PLANNED)
+  area      String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  // Relations
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  // Indexes
+  @@unique([projectId, featureId])
+  @@index([projectId, status])
+  @@map("features")
+}
+
+model Sprint {
+  id          String        @id @default(cuid())
+  projectId   String
+  code        String        // e.g., SPR-001
+  name        String
+  status      SprintStatus  @default(PLANNED)
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relations
+  project Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  items   SprintItem[]
+
+  // Indexes
+  @@unique([projectId, code])
+  @@index([projectId, status])
+  @@map("sprints")
+}
+
+model SprintItem {
+  id       String  @id @default(cuid())
+  sprintId String
+  text     String
+  checked  Boolean @default(false)
+  order    Int     @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  sprint Sprint @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+
+  // Indexes
+  @@index([sprintId, order])
+  @@map("sprint_items")
+}
+
+// Enums
+enum DocumentKind {
+  PRD
+  TECH_OVERVIEW
+  SPRINT_OVERVIEW
+  SPRINT
+  FREEFORM
+
+  @@map("document_kind")
+}
+
+enum FeatureStatus {
+  PLANNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+
+  @@map("feature_status")
+}
+
+enum SprintStatus {
+  PLANNED
+  ACTIVE
+  DONE
+  CANCELLED
+
+  @@map("sprint_status")
+}
