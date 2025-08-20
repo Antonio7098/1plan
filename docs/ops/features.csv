@@ -34,3 +34,7 @@ FEAT-032,Docs: README Contributing OpenAPI,0.1.0,planned,docs
 FEAT-033,Feature Flags (config-based),0.1.0,planned,infra
 FEAT-034,SLOs & Alerts (doc + config),0.1.0,planned,infra
 FEAT-035,Retry & Backoff Policy (client-side),0.1.0,planned,ai
+FEAT-036,Demo GIF & Video Assets,0.1.0,planned,docs
+FEAT-037,GitHub Pages Deployment (API docs),0.1.0,planned,infra
+FEAT-038,MCP Integration Guide (Claude Desktop Cursor),0.1.0,planned,docs
+FEAT-039,Release Automation & Changelog,0.1.0,planned,infra

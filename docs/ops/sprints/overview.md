@@ -17,6 +17,7 @@ High-level view of planned sprints for the API + MCP MVP.
 - [ ] [SPR-005 — Search & Performance](./SPR-005.md) (db) (LIKE search + optional FTS + load). Features: FEAT-007|FEAT-008|FEAT-024
 - [ ] [SPR-006 — Testing & Release](./SPR-006.md) (integration/E2E, docker, backups, docs). Features: FEAT-022|FEAT-023|FEAT-027|FEAT-029|FEAT-032
 - [ ] [SPR-007 — Auth & Scoping](./SPR-007.md) (service token, project scoping). Features: FEAT-010|FEAT-003
+- [ ] [SPR-008 — Launch & Release](./SPR-008.md) (demo assets, CI/CD, GitHub Pages, v1.0). Features: FEAT-032|FEAT-027|FEAT-026|FEAT-009|FEAT-036|FEAT-037|FEAT-038|FEAT-039
 
 ## Portfolio View (All Planned Sprints)
 | sprint_id | name | start_date | end_date | objective | themes | features (IDs) | owners | status |
@@ -28,6 +29,7 @@ High-level view of planned sprints for the API + MCP MVP.
 | [SPR-005](./SPR-005.md) | Search & Performance | <YYYY-MM-DD> | <YYYY-MM-DD> | Search and load/perf tuning | backend, infra | FEAT-007|FEAT-008|FEAT-024 | <owner(s)> | planned |
 | [SPR-006](./SPR-006.md) | Testing & Release | <YYYY-MM-DD> | <YYYY-MM-DD> | Tests, packaging, ops | qa, infra | FEAT-022|FEAT-023|FEAT-027|FEAT-029|FEAT-032 | <owner(s)> | planned |
 | [SPR-007](./SPR-007.md) | Auth & Scoping | <YYYY-MM-DD> | <YYYY-MM-DD> | Service token + project scopes | backend, infra | FEAT-010|FEAT-003 | <owner(s)> | planned |
+| [SPR-008](./SPR-008.md) | Launch & Release | <YYYY-MM-DD> | <YYYY-MM-DD> | Demo assets, CI/CD, GitHub Pages, v1.0 | release, infra | FEAT-032|FEAT-027|FEAT-026|FEAT-009|FEAT-036|FEAT-037|FEAT-038|FEAT-039 | <owner(s)> | planned |
 
 ## Milestones (Cross-Sprint)
 - <YYYY-MM-DD> API + MCP ready for pilot (SPR-001, SPR-002)
@@ -35,6 +37,7 @@ High-level view of planned sprints for the API + MCP MVP.
 - <YYYY-MM-DD> Observability and guardrails baseline (SPR-004)
 - <YYYY-MM-DD> Search + perf targets met (SPR-005)
 - <YYYY-MM-DD> Release artifacts and backups in place (SPR-006)
+- <YYYY-MM-DD> v1.0 public launch ready (SPR-008)
 
 ## Risks & Dependencies
 - Dependencies: Prisma migrations precede feature endpoints, MCP depends on API
